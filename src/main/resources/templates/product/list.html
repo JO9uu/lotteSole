@@ -1,0 +1,244 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/productLayout}">
+
+<div class="container" layout:fragment="content">
+        <script>
+            window.onload=async function () {
+                const likes = document.querySelectorAll('#like');
+                const unlikes = document.querySelectorAll('#unlike');
+
+                likes.forEach(function (like){
+                    like.onclick=async function (e) {
+                        try {
+                            const userId = document.getElementById('userId').value;
+                            const result = await fetchGet('/lotteshop/product/like?prodNo=' + like.getAttribute('data-prodNo') + '&userId=' + userId);
+                            if (result.data == 1) {
+                                like.innerText='❤️';
+                            } else {
+                                like.innerText='🤍';
+
+                            }
+                        } catch (e) {
+                            alert('로그인 후 이용해주세요');
+                        }
+
+                    }
+                })
+
+                unlikes.forEach(function (like){
+                    like.onclick=async function (e) {
+                        try {
+                            const userId = document.getElementById('userId').value;
+                            const result = await fetchGet('/lotteshop/product/like?prodNo=' + like.getAttribute('data-prodNo') + '&userId=' + userId);
+                            if (result.data == 1) {
+                                like.innerText = '❤️';
+                            } else {
+                                like.innerText = '🤍';
+
+                            }
+                        } catch (e) {
+                            alert('로그인 후 이용해주세요');
+                        }
+                    }
+                })
+
+            }
+
+
+        </script>
+    <main id="product">
+        <th:block th:if="${#authentication.principal != 'anonymousUser'}">
+            <input type="hidden" id="userId" th:value="${#authentication.principal.user.uid}">
+        </th:block>
+        <aside>
+            <!-- 카테고리 -->
+            <ul class="category">
+                <li><i class="fa fa-bars" aria-hidden="true"></i>카테고리</li>
+                <li>
+                    <a th:href="@{/product/list(cateName1='의류/패션')}"><i class="fas fa-tshirt"></i>의류/패션<i
+                            class="fas fa-angle-right"></i></a>
+                    <ol>
+                        <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='남성의류')}" >남성의류</a>
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='남성의류' , cateName3='상의')}">상의</a>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='남성의류' , cateName3='하의')}">하의</a>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='남성의류' , cateName3='잡화(가방,지갑,벨트)')}">잡화(가방,지갑,벨트)</a>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='남성의류' , cateName3='신발')}">신발</a>
+                            </ol>
+                        </li>
+                        <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='여성의류')}">여성의류</a>
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='여성의류' , cateName3= '상의')}">상의</a>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='여성의류' , cateName3= '하의')}">하의</a>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='여성의류' , cateName3= '잡화(가방,지갑,벨트)')}">잡화(가방,지갑,벨트)</a>
+                                <li><a th:href="@{/product/list(cateName1='의류/패션' , cateName2='여성의류' , cateName3= '신발')}">신발</a>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <a th:href="@{/product/list(cateName1='가전')}"><i class="fas fa-laptop"></i>가전<i
+                            class="fas fa-angle-right"></i></a>
+                    <ol>
+                        <li><a th:href="@{/product/list(cateName1='가전', cateName2='생활가전')}">생활가전</a>
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='가전', cateName2='생활가전' ,cateName3='세탁기/세탁기용품')}">세탁기/세탁기용품</a>
+                                <li><a th:href="@{/product/list(cateName1='가전', cateName2='생활가전' ,cateName3='청소기')}">청소기</a>
+                                <li><a th:href="@{/product/list(cateName1='가전', cateName2='생활가전' ,cateName3='에어컨')}">에어컨</a>
+                                <li><a th:href="@{/product/list(cateName1='가전', cateName2='생활가전' ,cateName3='냉장고')}">냉장고</a>
+                            </ol>
+                        </li>
+                        <li><a th:href="@{/product/list(cateName1='가전', cateName2='TV/영상가전')}">TV/영상가전</a>
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='가전', cateName2='TV/영상가전', cateName3='TV')}">TV</a>
+                                <li><a th:href="@{/product/list(cateName1='가전',cateName2='TV/영상가전', cateName3='영상플레이어')}">영상플레이어</a>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <a th:href="@{/product/list(cateName1='식품')}"><i class="fas fa-utensils"></i>식품<i
+                            class="fas fa-angle-right"></i></a>
+                    <ol>
+                        <li><a th:href="@{/product/list(cateName1='식품', cateName2='농/축산물')}">농/축산물</a>
+
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='농/축산물', cateName3='정육/계란')}">정육/계란</a>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='농/축산물', cateName3='정육/계란')}">쌀/잡곡/견과</a>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='농/축산물', cateName3='정육/계란')}">과일</a>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='농/축산물', cateName3='정육/계란')}">채소</a>
+                            </ol>
+
+                        </li>
+                        <li><a th:href="@{/product/list(cateName1='식품', cateName2='수산/건어물')}">수산/건어물</a>
+
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='수산/건어물', cateName3='생선')}">생선</a>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='수산/건어물', cateName3='김/해조류')}">김/해조류</a>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='수산/건어물', cateName3='전복/굴/조개류')}">전복/굴/조개류</a>
+                                <li><a th:href="@{/product/list(cateName1='식품', cateName2='수산/건어물', cateName3='오징어/낙지/쭈꾸미')}">오징어/낙지/쭈꾸미</a>
+                            </ol>
+                        </li>
+                    </ol>
+                <li>
+
+
+                    <a th:href="@{/product/list(cateName1='반려동물')}"><i class="fas fa-home"></i>반려동물<i
+                            class="fas fa-angle-right"></i></a>
+                    <ol>
+                        <li>
+                            <a th:href="@{/product/list(cateName1='반려동물', cateName2='강아지')}">강아지</a>
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='강아지', cateName3='사료/영양제')}">사료/영양제</a></li>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='강아지', cateName3='간식')}">간식</a></li>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='강아지', cateName3='배변용품')}">배변용품</a></li>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='강아지', cateName3='장난감/훈련용품')}">장난감/훈련용품</a></li>
+                            </ol>
+                        </li>
+                        <li>
+                            <a th:href="@{/product/list(cateName1='반려동물', cateName2='고양이')}">고양이</a>
+                            <ol>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='고양이', cateName3='사료/영양제')}">사료/영양제</a></li>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='고양이', cateName3='간식')}">간식</a></li>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='고양이', cateName3='배변용품')}">배변용품</a></li>
+                                <li><a th:href="@{/product/list(cateName1='반려동물', cateName2='고양이', cateName3='장난감/훈련용품')}">장난감/훈련용품</a></li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+            </ul>
+        </aside>
+
+        <section class="list">
+            <!-- 제목, 페이지 네비게이션 -->
+            <nav>
+                <h1>상품목록</h1>
+                <p>HOME > <span>[[${pageResponseDTO.cateName1}]]</span>
+                    <span th:if="${pageResponseDTO.cateName2!='' && pageResponseDTO.cateName2!=null}"> > [[${pageResponseDTO.cateName2}]]</span>
+                    <span th:if="${pageResponseDTO.cateName3!= '' && pageResponseDTO.cateName3!=null}"> > [[${pageResponseDTO.cateName3}]]</span>
+
+                </p>
+            </nav>
+
+            <!-- 정렬 메뉴 -->
+            <ul class="sort">
+                <li><a href="#" class="on">판매많은순</a></li>
+                <li><a href="#">낮은가격순</a></li>
+                <li><a href="#">높은가격순</a></li>
+                <li><a href="#">평점높은순</a></li>
+                <li><a href="#">후기많은순</a></li>
+                <li><a href="#">최근등록순</a></li>
+            </ul>
+
+            <!-- 상품목록 -->
+            <table border="0">
+                <tr th:each="product , index:${pageResponseDTO.dtoList}">
+                    <td><a th:href="@{/product/view(prodno=${product.prodNo})}" class="thumb"><img th:src="@{/uploads/__${product.image1}__}" alt="상품이미지"/></a></td>
+                    <td>
+                       <a th:href="@{/product/view(prodno=${product.prodNo})}"> <h3 class="name">[[${product.prodName}]]</h3></a>
+                        <a href="#" class="desc">[[${product.etc}]]</a>
+                    </td>
+
+                    <th:block th:if="${product.prodDiscount != 0}">
+                        <td>
+                            <ul>
+                                <li><ins class="dis-price">[[${#numbers.formatDecimal(product.prodPrice * (100 - product.prodDiscount) * 0.01, 1,0 )}]]</ins></li>
+                                <li>
+                                    <del class="org-price">[[${product.prodPrice}]]</del>
+                                    <span class="discount">[[${product.prodDiscount}]]</span>
+                                </li>
+                                <li> <span class="free" th:if="${product.delivery == 0}">무료배송</span></li>
+                                <li> <span class="free" th:if="${product.delivery != 0}"><i class="fa fa-truck"></i>  [[${product.delivery}]]</span></li>
+                                <li><span id="like" style="font-size: large" th:data-prodNo="${product.prodNo}" th:if="${product.getLikeState() != 0}">❤️</span></li>
+                                <li><span id="unlike" style="font-size: large" th:data-prodNo="${product.prodNo}" th:if="${product.getLikeState() == 0}">🤍</span></li>
+                            </ul>
+                        </td>
+                    </th:block>
+                    <th:block th:if="${product.prodDiscount == 0}">
+                        <td>
+                            <ul>
+                                <li><ins class="dis-price">[[${#numbers.formatDecimal(product.prodPrice * (100 - product.prodDiscount) * 0.01, 1,0 )}]]</ins></li>
+                                <li> <span class="free" th:if="${product.delivery == 0}">무료배송</span></li>
+                                <li> <span class="free" th:if="${product.delivery != 0}"><i class="fa fa-truck"></i>  [[${product.delivery}]]</span></li>
+                                <li><span id="like" style="font-size: large" th:data-prodNo="${product.prodNo}"  th:if="${product.getLikeState() != 0}">❤️</span></li>
+                                <li><span id="unlike" style="font-size: large"  th:data-prodNo="${product.prodNo}"  th:if="${product.getLikeState() == 0}">🤍</span></li>
+                            </ul>
+                        </td>
+                    </th:block>
+
+                    <td>
+                        <h4 class="seller"><i class="fas fa-home"></i>&nbsp;[[${product.sellerName}]]</h4>
+                        <h5 class="badge power">판매자등급</h5>
+                        <h6 class="rating star1">상품평</h6>
+                    </td>
+                </tr>
+
+            </table>
+
+            <!-- 상품목록 페이지번호 -->
+            <div class="paging">
+                        <span class="prev" th:if="${pageResponseDTO.prev}">
+                            <a th:href="@{/product/list(pg=${pageResponseDTO.start -1}, cateName1 =${pageResponseDTO.getCateName1()} , cateName2 = ${pageResponseDTO.getCateName2() }, cateName3=${pageResponseDTO.getCateName3()})}"><&nbsp;이전</a>
+                        </span>
+                <span class="num" th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+                            <th:block th:if="${num == pageResponseDTO.pg}">
+                                 <a th:href="@{/product/list( pg=${num}
+                               , cateName1 =${pageResponseDTO.getCateName1()} , cateName2 = ${pageResponseDTO.getCateName2() }, cateName3=${pageResponseDTO.getCateName3()})}" class="on">[[${num}]]</a>
+                            </th:block>
+
+                            <th:block th:if="${num != pageResponseDTO.pg}">
+
+                                 <a th:href="@{/product/list( pg=${num} , cateName1 =${pageResponseDTO.getCateName1()} , cateName2 = ${pageResponseDTO.getCateName2() }, cateName3=${pageResponseDTO.getCateName3()})}" >[[${num}]]</a>
+                            </th:block>
+
+                        </span>
+                <span class="next" th:if="${pageResponseDTO.next}">
+                            <a th:href="@{/product/list( pg=${pageResponseDTO.end+1} , cateName1 =${pageResponseDTO.getCateName1()} , cateName2 = ${pageResponseDTO.getCateName2() }, cateName3=${pageResponseDTO.getCateName3()})}">다음&nbsp;></a>
+                        </span>
+            </div>
+
+        </section>
+    </main>
+</div>
+</html>

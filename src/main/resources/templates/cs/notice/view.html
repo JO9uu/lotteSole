@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/cs/layouts/csLayout.html}">
+
+<section id="cs-notice" layout:fragment="content">
+  <nav>
+    <h3>고객센터</h3>
+    <p>
+      HOME > 고객센터 > <strong>공지사항</strong>
+    </p>
+  </nav>
+
+  <section>
+    <aside>
+      <h2>자주묻는 질문</h2>
+      <ul>
+        <li><a th:href="@{/cs/notice(cate1='customer')}">고객서비스</a></li>
+        <li><a th:href="@{/cs/notice(cate1='danger')}">위해상품</a></li>
+        <li><a th:href="@{/cs/notice(cate1='safe')}">안전거래</a></li>
+        <li><a th:href="@{/cs/notice(cate1='event')}">이벤트 당첨</a></li>
+      </ul>
+    </aside>
+    <div>
+      <table class="">
+        <tr>
+          <td>공지 유형</td>
+          <td>[[${view.cate1}]]-[[${view.catename}]]</td>
+        </tr>
+        <tr>
+          <td>제목: </td>
+          <td class="faq-title">
+            <span>[[${view.title}]]</span>
+          </td>
+        </tr>
+        <tr>
+          <td>내용:</td>
+          <td>
+            <span>[[${view.content}]]</span>
+          </td>
+          <td>
+            <p>
+              ※ 피싱 관련 피해신고<br /><br />
+              ▶ 경찰청 사이버수사국 (국번없이)182 :
+              http://cyberbureau.police.go.kr<br />
+              ▶ KISA 인터넷침해대응센터 (국번없이)118 :
+              http://www.krcert.or.kr<br />
+              감사합니다.<br />
+            </p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </section>
+</section>
+</html>

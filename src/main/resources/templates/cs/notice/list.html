@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/cs/layouts/csLayout.html}">
+
+<main layout:fragment="content">
+  <script>
+    const loadMoreAll = document.getElementsByClassName('loadMore');
+    Array.from(loadMoreAll).forEach(function (loadMore) {
+      loadMore.addEventListener('click', function (e){
+        e.preventDefault();
+        const button = e.target;
+        const ul = button.parentNode.parentNode; // ul태그
+        const faqListAll = ul.querySelectorAll('.faq-list'); // ul태그 안에 있는 모든 faqList
+        if (button.innerText === "더보기") {
+          for (let i = 3; i < 10; i++) {
+            faqListAll[i].style.display = "block";
+            button.innerText = "간략히 보기";
+          }
+        }else {
+          for (let i = 3; i < 10; i++) {
+            faqListAll[i].style.display = "none";
+            button.innerText = "더보기";
+          }
+        }
+      })
+    })
+  </script>
+      <section id="cs">
+        <div class="notice">
+          <nav>
+            <div>
+              <p>홈<span>></span>공지사항</p>
+            </div>
+          </nav>
+          <section class="list">
+            <aside>
+              <h2>공지사항</h2>
+              <ul>
+                <li class="on"><a th:href="@{#}">전체</a></li>
+                <li><a th:href="@{#}">고객서비스</a></li>
+                <li><a th:href="@{#}">안전거래</a></li>
+                <li><a th:href="@{#}">위해상품</a></li>
+                <li><a th:href="@{#}">이벤트당첨</a></li>
+              </ul>
+            </aside>
+            <article>
+              <nav>
+                <h1>전체</h1>
+                <h2>공지사항 전체 내용입니다.</h2>
+              </nav>
+
+              <table>
+                <tr th:each="csNotice, index : ${csNotice.dtoList2}">
+                  <td>[[${csNotice.no}]]</td>
+                  <td th:if="${csNotice.cate1 == 'event'}">이벤트</td>
+                  <td th:if="${csNotice.cate1 == 'customer'}">고객서비스</td>
+                  <td th:if="${csNotice.cate1 == 'safe'}">안전거래</td>
+                  <td th:if="${csNotice.cate1 == 'danger'}">위해상품</td>
+                  <td th:value="${csNotice.cate2}">([[${csNotice.catename}]])</td>
+                  <td><a th:href="@{/cs/notice/view(no=${csNotice.no})}">[[${csNotice.title}]]</a></td>
+                  <td th:text="${#temporals.format(csNotice.rdate, 'yyyy-MM-dd')}"></td>
+
+                  <td></td>
+                </tr>
+              </table>
+
+            </article>
+          </section>
+        </div>
+      </section>
+
+</main>
+</html>
